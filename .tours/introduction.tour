@@ -1,0 +1,34 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Introduction",
+  "steps": [
+    {
+      "title": "Overview",
+      "description": "This example demonstrates how to use SQL via JDBC along with Camel's REST DSL to expose a RESTful API.\n\nA back-end Camel route periodically generates new book orders and stores them in a database table to be processed. A second Camel route then queries the table for unprocessed orders, marks them as processed and logs them. \n\nThe front-end exposes two REST endpoints. The `books` endpoint lists all the unique books from the orders table; and the `books/order/{id}` endpoint provides the details of a particular order."
+    },
+    {
+      "title": "Run the Example",
+      "description": "You can build and run the example by entering the following command in a terminal:\n>> mvn quarkus:dev\n\nThis command will build the project and run it in `dev` mode, meaning that any changes made to the project files will cause the project to be rebuilt and re-started automatically. \n\nThis example makes use of Quarkus' Dev Services to automatically download a Database container image, start it and create the `orders` table. \n\nOnce the application has started, you should see output similar to the following in the console:\n```\n2023-07-20 15:34:15,483 INFO  [generate-order] (Camel (camel-1) thread #2 - timer://new-order) Inserted new order 1\n2023-07-20 15:34:25,304 INFO  [generate-order] (Camel (camel-1) thread #2 - timer://new-order) Inserted new order 2\n2023-07-20 15:34:35,344 INFO  [generate-order] (Camel (camel-1) thread #2 - timer://new-order) Inserted new order 3\n2023-07-20 15:34:45,306 INFO  [generate-order] (Camel (camel-1) thread #2 - timer://new-order) Inserted new order 4\n2023-07-20 15:34:45,498 INFO  [process-order] (Camel (camel-1) thread #1 - sql://select%20*%20from%20orders%20where%20processed%20=%20false) Processed order #id 1 with 4 copies of the 'ActiveMQ in Action' book\n```\n"
+    },
+    {
+      "title": "REST Endpoints",
+      "description": "As mentioned in the Overiew step, the example exposes 2 REST endpoints:\n\n  * [books](http://localhost:8080/camel-rest-sql/books/) - List the unique books present in the `orders` table. There will only ever be a maximum of two different books, so as long as 2 or more orders have been created, you should see the following output: `[{\"description\":\"ActiveMQ in Action\"},{\"description\":\"Camel in Action\"}]`.\n  * [books/order/{id}](http://localhost:8080/camel-rest-sql/books/order/1) - Displays the details of a given order. Assuming that the first order has been processed, the output will be as follows: `{\"id\":1,\"item\":\"ActiveMQ\",\"amount\":7,\"description\":\"ActiveMQ in Action\",\"processed\":true}`."
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/OrderService.java",
+      "description": "To demonstrate Quarkus' ability to reload, try adding a subject such as `Quarkus` to the `subjects` array:\n\n```java\n   private final String[] subjects = { \"Camel\", \"ActiveMQ\", \"Quarkus\" };\n```\n\nSave the file. As long as the application is still running, you should see the code getting recompiled, and then you should start seeing new orders for `Quarkus in Action` being added.\n\nTo terminate the application, press `q` in the terminal window.",
+      "line": 18,
+      "selection": {
+        "start": {
+          "line": 18,
+          "character": 2
+        },
+        "end": {
+          "line": 18,
+          "character": 63
+        }
+      },
+      "title": "Modify Source Code"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Developers",
+  "steps": [
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/Backend.java",
+      "description": "The first route defined in the `Backend` class, with id `generate-order`, periodically generates Book orders and inserts them into the `orders` table in a database.\n\nThe `timer` component is used to send a message along the route. The initial message will be sent after a delay of one second (`delay=1s`), with subsequent messages sent an intervals specified by the `quickstart.generateOrderPeriod`, or every 2 seconds if the property is not defined.",
+      "line": 10,
+      "title": "First Backend Route : Timer"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/Backend.java",
+      "description": "The message is passed to the `bean` component to generate an `Order` object. \n\nCamel will look up the the `orderService` name in the registry, which is an instance of class `OrderService`, and will call the `generateOrder` method on that class. The `Order` object that is created will be set in the message body and made available to subsequent steps in the route.",
+      "line": 12,
+      "title": "First Backend Route: Bean"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/OrderService.java",
+      "description": "The `generateOrder` method on the `OrderService` class creates an `Order` object and populates its fields with sample data.",
+      "line": 20,
+      "title": "OrderService.generateOrder()"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/OrderService.java",
+      "description": "The `@ApplicationScoped` annotation indicates to the Quarkus Platform that a single instance of this class should be created.\n\nThe `@Named` annotation registers the instance in Camel's registry using the name `orderService`.",
+      "line": 11,
+      "title": "OrderService annotations"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/Backend.java",
+      "description": "The `Order` object in the message body is passed to the `sql` component to insert it into the `orders` table. Most of the values are extracted from the order object using the Simple language notation, such as `${body.id}` to access the `Order.id` field.\n\nThe `processed` field is set to `false` so that it can be handled by the second back-end route.",
+      "line": 13,
+      "title": "First Backend Route: SQL Insertion"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/Backend.java",
+      "description": "The second route processes new orders.\n\nThe SQL component searches for orders that have not yet been processed (`processed = false`). The `onConsume` option specifies an update statement that is executed after each row is processed. In this case, it updates the row setting the `processed` field to `true` to prevent the row being processed more than once.\n\nThe `delay` option sets the period between queries. This is specified by the `quickstart.processOrderPeriod` property if set, or defaults to 5 seconds otherwise.",
+      "line": 18,
+      "title": "Second Backend route: SQL Query"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/Backend.java",
+      "description": "The messages from the sql component contain a `Map` representing a row in the database, with column names mapping to the field values. The `bean` component calls the `rowToOrder()` method on the `OrderService` object instance, which converts the row data into an `Order object`.",
+      "line": 22,
+      "title": "Second Backend Route: Bean"
+    }
+  ]
+}

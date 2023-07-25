@@ -1,0 +1,62 @@
+schemaVersion: 2.2.0
+metadata:
+  name: camel-quarkus-rest-sql
+attributes:
+  .vscode/extensions.json: |
+    {
+      "recommendations": [
+        "redhat.java",
+        "redhat.vscode-apache-camel",
+        "vsls-contrib.codetour"
+      ]
+    }
+components:
+  - name: java
+    container:
+      image: registry.access.redhat.com/ubi8/openjdk-17
+      sourceMapping: /projects
+      command: [ "tail", "-f", "/dev/null"]
+      endpoints:
+        - exposure: public
+          name: rest-api
+          protocol: http
+          targetPort: 8080
+  - name: mariadb
+    container:
+      # image: registry.redhat.io/rhel8/mariadb-105
+      image: quay.io/centos7/mariadb-105-centos7
+      env:
+        - name: MYSQL_USER
+          value: cquser
+        - name: MYSQL_PASSWORD
+          value: password123
+        - name: MYSQL_DATABASE
+          value: quickstart
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootPass123
+      endpoints:
+        - exposure: none
+          name: db
+          protocol: tcp
+          targetPort: 3306
+      mountSources: true
+      command: [ "run-mysqld" ]
+
+commands:
+  - id: prepare-database
+    exec:
+      component: mariadb
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mysql -u root -D quickstart < ${PROJECT_SOURCE}/src/main/resources/schema.sql
+      group:
+        kind: build
+        isDefault: true
+
+  - id: run-quickstart
+    exec:
+      component: java
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn -Dquarkus.profile=k8s quarkus:dev
+      group:
+        kind: run
+        isDefault: true
