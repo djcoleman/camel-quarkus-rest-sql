@@ -43,6 +43,54 @@
       "description": "The messages from the sql component contain a `Map` representing a row in the database, with column names mapping to the field values. The `bean` component calls the `rowToOrder()` method on the `OrderService` object instance, which converts the row data into an `Order object`.",
       "line": 22,
       "title": "Second Backend Route: Bean"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/RestApi.java",
+      "description": "The `restConfiguration()` method call sets up the various parameters shared by the REST endpoints:\n\n  * `contextPath()` sets the leading context path for all endpoints. In this case, all URLs will appear under `/camel-rest-sql`.\n  * `apiContextPath()` makes the OpenAPI Docs available at `/camel-rest-sql/api-doc`.\n  * `apiProperty()` sets a couple of API Doc properties, and enables CORS (cross-origin resource sharing).\n  * `bindingMode()` sets JSON as the data format for the REST calls.",
+      "line": 13,
+      "title": "REST API: Route configuration"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/RestApi.java",
+      "description": "The `/camel-rest-sql/books` endpoint returns a unique list of books. The endpoint is routed to the `sql` component which will return the unique descriptions from the `orders` table and converts the result into `Book` objects",
+      "line": 22,
+      "title": "REST API: Books route"
+    },
+    {
+      "file": "src/main/java/org/acme/cq/quickstart/RestApi.java",
+      "description": "The `camel-rest-sql/books/order/{id}` endpoint also connects to the `sql` component to find the order with the id specified in the path. The `outputType` is changed to `SelectOne` in this case as only a single order is expected, and the row data is converted into an `Order` object, which will be returned from the REST endpoint.",
+      "line": 25,
+      "title": "REST API: Order route"
+    },
+    {
+      "file": "src/main/resources/application.properties",
+      "description": "The `quarkus.datasource.devservices.init-script-path` property is used to populate the Dev Services database when the `dev` profile is used, which is the default when the example is run with `mvn quarkus:dev`.\n\nWhen the `k8s` profile is used, which is enabled by passing the runtime property `-Dquarkus.profile=k8s`, the datasource properties beginning with `%k8s` will be used instead to connect to an existing database.",
+      "line": 3,
+      "title": "Application Properties"
+    },
+    {
+      "file": ".devfile.yaml",
+      "description": "The `java` component uses the `ubi8/openjdk-17` image to build and run the example. When the container is started, the `tail -f /dev/null` command is run to keep the container alive so that the `run-quickstart` command can be executed. Without that command, the container would terminate shortly after starting.\n\nWhen the example is run, the REST API will be exposed on port 8080. ",
+      "line": 5,
+      "title": "DevFile: Java Component"
+    },
+    {
+      "file": ".devfile.yaml",
+      "description": "The second component is the MariaDB database. When running in a Kubernetes / OpenShift node, Quarkus is unable to automatically start the database using the Dev Services approach that is used locally, so a database image has to be provisioned. The `env` values match the properties that were specified in the `application.properties` file.",
+      "line": 15,
+      "title": "DevFile: Database component"
+    },
+    {
+      "file": ".devfile.yaml",
+      "description": "The `prepare-database` command is bound to the `build` phase, and is either run automatically when `odo dev` is called, or can be invoked manually via a task in the Dev Workspace. The workspace will be mounted into the `mariadb` container (the `mountSources: true` line in the component definition), and the path to the project is available via the `${PROJECT_SOURCE}` environment variable. The `mysql` command is run in the `mariadb` container and creates the `orders` table in the `quickstart` database from the specified schema.",
+      "line": 36,
+      "title": "DevFile: prepare-database command"
+    },
+    {
+      "file": ".devfile.yaml",
+      "description": "The `run-quickstart` command runs the `mvn` command in the container identified by the `java` id. The `k8s` profile is enabled by passing the `quarkus.profile` property on the command line.",
+      "line": 45,
+      "title": "DevFile: run-quickstart command"
     }
   ]
 }

@@ -1,15 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
   name: camel-quarkus-rest-sql
-attributes:
-  .vscode/extensions.json: |
-    {
-      "recommendations": [
-        "redhat.java",
-        "redhat.vscode-apache-camel",
-        "vsls-contrib.codetour"
-      ]
-    }
 components:
   - name: java
     container:
@@ -23,7 +14,6 @@ components:
           targetPort: 8080
   - name: mariadb
     container:
-      # image: registry.redhat.io/rhel8/mariadb-105
       image: quay.io/centos7/mariadb-105-centos7
       env:
         - name: MYSQL_USER

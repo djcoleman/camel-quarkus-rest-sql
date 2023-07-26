@@ -58,6 +58,8 @@ odo create namespace camel-quarkus-rest-sql
 
 The `odo create namespace` command creates a Kubernetes namespace and sets that as the default.
 
+When running in the Developer Sandbox, this step should be skipped as only a single project is supported.
+
 To run the application in development mode, just run the following command:
 
 ```bash
@@ -80,7 +82,7 @@ You should see the _Create Workspaces_ pane - if not, select that option from th
 
 The workspace should look familar to anyone who has used Visual Studio Code before. The contents of the GitHub Repository specified in the previous step will be cloned into the workspace, and the two containers in the DevFile will have been started. You can verify this in the _Topology_ page in the Developer Console tab by clicking on the workspace deployment and then clicking on _Pods_, you should see the `java` and `mariadb` containers running.
 
-The commands from the DevFile have been added as tasks in the VS Code editor. 
+The commands from the DevFile have been added as tasks in the VS Code editor. To first set up the database:
   1. Click on the Burger icon in the top left corner of the editor to open the menu.
   2. Select _Terminal -> Run Task..._
   3. In the _Select task to run_ pop-up, search from `devfile: prepare-database`. A terminal will open and the command will be executed.
