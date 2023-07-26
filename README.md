@@ -72,3 +72,19 @@ The second command is the `mvn quarkus:dev` command that builds and starts the e
 
 Finally, the `--port-forward 8080:8080` option maps port 8080 on the pod to the same port number on your local machine so that you can access the endpoints using the same URLs as if running locally.
 
+### Red Hat OpenShift Dev Workspaces 
+
+You can access the Dev Workspaces from a [Developer Sandbox](https://developers.redhat.com/developer-sandbox) account. From the Developer Console that should be visible after logging in to your OpenShift account, select the _Applications_ grid icon at the right of the menu bar, and  then select _Red Hat OpenShift Dev Spaces_ from the drop-down menu. This will open the Dev Workspaces dashboard in a new tab.
+
+You should see the _Create Workspaces_ pane - if not, select that option from the sidebar. In the _Import from Git_ box, enter the URL `https://github.com/djcoleman/camel-quarkus-rest-sql` and hit return to create a workspace. This will open in a new browser tab.
+
+The workspace should look familar to anyone who has used Visual Studio Code before. The contents of the GitHub Repository specified in the previous step will be cloned into the workspace, and the two containers in the DevFile will have been started. You can verify this in the _Topology_ page in the Developer Console tab by clicking on the workspace deployment and then clicking on _Pods_, you should see the `java` and `mariadb` containers running.
+
+The commands from the DevFile have been added as tasks in the VS Code editor. 
+  1. Click on the Burger icon in the top left corner of the editor to open the menu.
+  2. Select _Terminal -> Run Task..._
+  3. In the _Select task to run_ pop-up, search from `devfile: prepare-database`. A terminal will open and the command will be executed.
+
+Next, follow the same process to run the task `devfile: run-quickstart`. The progress of the build will be shown in the same terminal window. Once the compilation has completed and the example is running, you will be asked whether you want to add a redirect for port 8080. Click _Yes_ to this pop-up, and the subsequent one asking whether you wish to open a tab to the redirect. Your URL will contain the application name `camel-quarkus-rest-sql` in the subdomain, with a domain of `openshiftapps.com`. Once the example is running, you should be able to append `/camel-rest-sql/books/` to this URL to view the list of books.
+
+
