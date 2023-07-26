@@ -88,3 +88,8 @@ The commands from the DevFile have been added as tasks in the VS Code editor.
 Next, follow the same process to run the task `devfile: run-quickstart`. The progress of the build will be shown in the same terminal window. Once the compilation has completed and the example is running, you will be asked whether you want to add a redirect for port 8080. Click _Yes_ to this pop-up, and the subsequent one asking whether you wish to open a tab to the redirect. Your URL will contain the application name `camel-quarkus-rest-sql` in the subdomain, with a domain of `openshiftapps.com`. Once the example is running, you should be able to append `/camel-rest-sql/books/` to this URL to view the list of books.
 
 
+## Code Tours
+
+When the project is open in VS Code / Eclipse Che / Red Hat Dev Spaces, there are two code tours available - an `Introduction` tour that walks through running the example, and a `Developers` tour that provides a walk-through of the implementation.
+
+To view the code tours, you'll need to install the `CodeTour` plugin by Jonathan Carter. Once installed, a `CODETOUR` section will appear in the Explorer side panel from where you can launch one of the code tours.
