@@ -51,14 +51,11 @@ Pre-requisites:
   * [Odo](https://odo.dev/docs/overview/installation)
   * A Kubernetes or OpenShift node/cluster, for example `minikube` running locally, or a free account with Red Hat's [Developer Sandbox](https://developers.redhat.com/developer-sandbox).
 
-On Kubernetes, first create a namespace where the project will be deployed:
+When running in the developer Sandbox, the default namespace could be used.
+However for other kubernetes flavors, please create a new default namespace as below:
 ```bash
 odo create namespace camel-quarkus-rest-sql
 ```
-
-The `odo create namespace` command creates a Kubernetes namespace and sets that as the default.
-
-When running in the Developer Sandbox, this step should be skipped as only a single project is supported.
 
 To run the application in development mode, just run the following command:
 
