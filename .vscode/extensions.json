@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "redhat.java",
+        "redhat.vscode-apache-camel",
+        "vsls-contrib.codetour"
+    ]
+}
