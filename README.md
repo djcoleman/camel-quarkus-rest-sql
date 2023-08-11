@@ -65,7 +65,7 @@ odo dev --port-forward 8080:8080
 
 The `odo dev` command is driven by the contents of the `.devfile.yaml` file in the root directory. The devfile format is described at https://devfile.io, but there are two key sections for this deployment. The `component` sections describe containers that will be started, and the `command` sections describe which commands will be run in the containers. There are two container components for this project - a `java` component that will run the `mvn` command to build and run the example, and a `mariadb` component that will run the database server.
 
-The `prepare-database` command populates the database with the contents of `src/main/resources/schema.sql`, which creates the `orders` table used by the example. This command is run during the build phase.
+The `prepare-database` command populates the database with the contents of `src/main/resources/schema.sql`, which creates the `orders` table used by the example. This command is triggered by the `postStart` event once the containers are running.
 
 The second command is the `mvn quarkus:dev` command that builds and starts the example, and is executed during the run phase.
 
@@ -79,12 +79,12 @@ You should see the _Create Workspaces_ pane - if not, select that option from th
 
 The workspace should look familar to anyone who has used Visual Studio Code before. The contents of the GitHub Repository specified in the previous step will be cloned into the workspace, and the two containers in the DevFile will have been started. You can verify this in the _Topology_ page in the Developer Console tab by clicking on the workspace deployment and then clicking on _Pods_, you should see the `java` and `mariadb` containers running.
 
-The commands from the DevFile have been added as tasks in the VS Code editor. To first set up the database:
+The commands from the DevFile have been added as tasks in the VS Code editor. To build and run the quickstart:
   1. Click on the Burger icon in the top left corner of the editor to open the menu.
   2. Select _Terminal -> Run Task..._
-  3. In the _Select task to run_ pop-up, search from `devfile: prepare-database`. A terminal will open and the command will be executed.
+  3. In the _Select task to run_ pop-up, search from `devfile: run-quickstart`. A terminal will open and the command will be executed.
 
-Next, follow the same process to run the task `devfile: run-quickstart`. The progress of the build will be shown in the same terminal window. Once the compilation has completed and the example is running, you will be asked whether you want to add a redirect for port 8080. Click _Yes_ to this pop-up, and the subsequent one asking whether you wish to open a tab to the redirect. Your URL will contain the application name `camel-quarkus-rest-sql` in the subdomain, with a domain of `openshiftapps.com`. Once the example is running, you should be able to append `/camel-rest-sql/books/` to this URL to view the list of books.
+Once the compilation has completed and the example is running, you will be asked whether you want to add a redirect for port 8080. Click _Yes_ to this pop-up, and the subsequent one asking whether you wish to open a tab to the redirect. Your URL will contain the application name `camel-quarkus-rest-sql` in the subdomain, with a domain of `openshiftapps.com`. Once the example is running, you should be able to append `/camel-rest-sql/books/` to this URL to view the list of books.
 
 
 ## Code Tours
