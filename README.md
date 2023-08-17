@@ -71,6 +71,15 @@ The second command is the `mvn quarkus:dev` command that builds and starts the e
 
 Finally, the `--port-forward 8080:8080` option maps port 8080 on the pod to the same port number on your local machine so that you can access the endpoints using the same URLs as if running locally.
 
+#### Debugging
+
+You can start the example in debug mode so that you can attach to it from your IDE by running the following command:
+
+```bash
+odo dev --debug --port-forward 5005:5005 --port-forward 8080:8080 
+```
+
+
 ### Red Hat OpenShift Dev Workspaces 
 
 You can access the Dev Workspaces from a [Developer Sandbox](https://developers.redhat.com/developer-sandbox) account. From the Developer Console that should be visible after logging in to your OpenShift account, select the _Applications_ grid icon at the right of the menu bar, and  then select _Red Hat OpenShift Dev Spaces_ from the drop-down menu. This will open the Dev Workspaces dashboard in a new tab.

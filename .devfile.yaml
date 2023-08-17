@@ -12,6 +12,10 @@ components:
           name: rest-api
           protocol: http
           targetPort: 8080
+        - exposure: public
+          name: debug
+          protocol: tcp
+          targetPort: 5005
   - name: mariadb
     container:
       image: quay.io/centos7/mariadb-105-centos7
@@ -37,7 +41,16 @@ commands:
     exec:
       component: mariadb
       workingDir: ${PROJECT_SOURCE}
-      commandLine: mysql -u root -D quickstart < ${PROJECT_SOURCE}/src/main/resources/schema.sql
+      commandLine: bash -c "mysql -u root -D quickstart < ${PROJECT_SOURCE}/src/main/resources/schema.sql"
+
+  - id: build-quickstart
+    exec:
+      component: java
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn install -DskipTests
+      group:
+        kind: build
+        isDefault: true
 
   - id: run-quickstart
     exec:
@@ -46,6 +59,15 @@ commands:
       commandLine: mvn -Dquarkus.profile=k8s quarkus:dev
       group:
         kind: run
+        isDefault: true
+
+  - id: debug-quickstart
+    exec:
+      component: java
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn -Dquarkus.profile=k8s -Ddebug quarkus:dev
+      group:
+        kind: debug
         isDefault: true
 
 events:
