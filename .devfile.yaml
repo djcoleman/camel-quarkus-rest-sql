@@ -41,7 +41,7 @@ commands:
     exec:
       component: mariadb
       workingDir: ${PROJECT_SOURCE}
-      commandLine: bash -c "mysql -u root -D quickstart < ${PROJECT_SOURCE}/src/main/resources/schema.sql"
+      commandLine: hostname && sleep 10 && mysql -u root -D quickstart < ${PROJECT_SOURCE}/src/main/resources/schema.sql && echo "Database loaded."
 
   - id: build-quickstart
     exec:
