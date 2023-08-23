@@ -70,6 +70,25 @@ commands:
         kind: debug
         isDefault: true
 
+  - id: prepare-test-database
+    exec:
+      component: mariadb
+      commandLine: mysql -u root < ${PROJECT_SOURCE}/src/test/resources/test-setup.sql && mysql -u root -D testdb < ${PROJECT_SOURCE}/src/main/resources/schema.sql && echo "Test database loaded."
+
+  - id: run-tests
+    exec:
+      component: java
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn -Dquarkus.test.profile=test-k8s test
+  
+  - id: test-quickstart
+    composite:
+      commands:
+        - prepare-test-database
+        - run-tests
+      group:
+        kind: run
+
 events:
   postStart:
     - prepare-database
